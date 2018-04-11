@@ -1,0 +1,7 @@
+*.model
+*.txt
+*.npy
+*.pyc
+*.bz2
+*.text
+test.py
