@@ -16,26 +16,32 @@ logging.basicConfig(format = '%(asctime)s : %(levelname)s : %(message)s', level=
 #jieba.set_dictionary('../dict.txt.big')
 
 stopword_set = set()
+all_word_cut = []
 
 with codecs.open('../stop_words.txt','r','utf-8') as stopwords:
     for stopword in stopwords:
         stopword_set.add(stopword.strip('\n'))
     
-output  = codecs.open("wiki_seg.txt",'w','utf-8')
-with codecs.open("./wiki.text",'r','utf-8') as content:
+output  = codecs.open("wiki_seg_zhTW.txt",'w','utf-8')
+with codecs.open("./wiki_2_zhTW.txt",'r','utf-8') as content:
     for texts_num, line in enumerate(content):
         line = line.strip('\n')
         words = jieba.cut(line, cut_all=False, HMM = True)
+#        words = jieba.cut_for_search(line, HMM = True)
         for word in words:
             if word not in stopword_set:
                 output.write(word + ' ')
+#                if word not in all_word_cut:
+#                    all_word_cut.append(word)
         output.write('\n')
 
 
         if (texts_num +1 ) % 10000 == 0:
             logging.info("已完成前 %d 行的斷詞" % (texts_num + 1))
 
+#pickle.dump(all_word_cut, codecs.open('all_word_cut','w','utf-8'))
 output.close()
+
 
 
 
