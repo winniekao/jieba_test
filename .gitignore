@@ -5,3 +5,6 @@
 *.bz2
 *.text
 test.py
+temp
+*.p
+*.dic

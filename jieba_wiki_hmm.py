@@ -13,33 +13,35 @@ sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 
 logging.basicConfig(format = '%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
-jieba.load_userdict('./food_wiki.dic')
+#jieba.set_dictionary('../dict.txt.big')
+#jieba.load_userdict("../../food_proj/eat.dic")
+jieba.load_userdict("./food_wiki.dic")
 
 stopword_set = set()
-all_word_search = []
+all_word_cut = []
 
 with codecs.open('./stop_words_all_2.txt','r','utf-8') as stopwords:
     for stopword in stopwords:
         stopword_set.add(stopword.strip('\n'))
     
-output  = codecs.open("wiki_food_jieba_search.txt",'w','utf-8')
+output  = codecs.open("wiki_food_jieba_hmm.txt",'w','utf-8')
 with codecs.open("./wiki_2.text",'r','utf-8') as content:
     for texts_num, line in enumerate(content):
         line = line.strip('\n')
-#        words = jieba.cut(line, cut_all=False, HMM = True)
-        words = jieba.cut_for_search(line, HMM = True)
+        words = jieba.cut(line, cut_all=False, HMM = True)
+#        words = jieba.cut_for_search(line, HMM = True)
         for word in words:
             if word not in stopword_set:
                 output.write(word + ' ')
-#                if word not in all_word_search:
-#                    all_word_search.append(word)
+#                if word not in all_word_cut:
+#                    all_word_cut.append(word)
         output.write('\n')
 
 
         if (texts_num +1 ) % 10000 == 0:
             logging.info("已完成前 %d 行的斷詞" % (texts_num + 1))
 
-#pickle.dump(all_word_search, codecs.open('all_word_search','w','utf-8'))
+#pickle.dump(all_word_cut, codecs.open('all_word_cut','w','utf-8'))
 output.close()
 
 

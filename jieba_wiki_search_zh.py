@@ -2,7 +2,7 @@ import jieba
 import logging
 import sys
 from gensim.corpora import WikiCorpus
-
+from opencc import OpenCC
 import codecs
 import csv
 import io
@@ -12,22 +12,25 @@ sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
 sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 
 logging.basicConfig(format = '%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
-
-jieba.load_userdict('./food_wiki.dic')
+jieba.load_userdict("./eat.dic")
+#jieba.set_dictionary('../dict.txt.big')
 
 stopword_set = set()
 all_word_search = []
+cc = OpenCC('s2tw')
 
-with codecs.open('./stop_words_all_2.txt','r','utf-8') as stopwords:
+with codecs.open('../stop_words.txt','r','utf-8') as stopwords:
     for stopword in stopwords:
         stopword_set.add(stopword.strip('\n'))
     
-output  = codecs.open("wiki_food_jieba_search.txt",'w','utf-8')
-with codecs.open("./wiki_2.text",'r','utf-8') as content:
+output  = codecs.open("wiki_seg_zhtw_search.txt",'w','utf-8')
+with codecs.open("./wiki.text",'r','utf-8') as content:
     for texts_num, line in enumerate(content):
         line = line.strip('\n')
+        channge_tw_line = cc.convert(line)
+#        print(channge_tw_line)
 #        words = jieba.cut(line, cut_all=False, HMM = True)
-        words = jieba.cut_for_search(line, HMM = True)
+        words = jieba.cut_for_search(channge_tw_line, HMM=False)
         for word in words:
             if word not in stopword_set:
                 output.write(word + ' ')

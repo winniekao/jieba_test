@@ -11,8 +11,8 @@ sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 
 logging.basicConfig(format = '%(asctime)s : %(levelname)s : %(message)s', level = logging.INFO)
 
-openCC = OpenCC('t2s')
-output = codecs.open("wiki_2_zh.txt",'w','utf-8')
+openCC = OpenCC('s2t')
+output = codecs.open("wiki_2_zhTW.txt",'w','utf-8')
 
 
 

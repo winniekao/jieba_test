@@ -12,9 +12,9 @@ sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 
 #logging.basicConfig(format='%(asctime)s : %(levelmame)s : %(message)s', level=logging.INFO )
 
-sentences = word2vec.LineSentence("./wiki_food_jieba_search.txt")
-model = word2vec.Word2Vec(sentences, size=250, sg=0, min_alpha=0.00001)
+sentences = word2vec.LineSentence("./wiki_seg_zh.txt")
+model = word2vec.Word2Vec(sentences, size=250, sg=1, min_alpha=0.00001)
 
-model.save("w2v_wiki_food_search.model")
+model.save("word2vec_wiki_zh_search.model")
 
 
