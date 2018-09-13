@@ -14,11 +14,13 @@ sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 logging.basicConfig(format = '%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 #jieba.set_dictionary('../dict.txt.big')
+jieba.load_userdict("../../food_proj/eat.dic")
+jieba.load_userdict("../../food_proj/eat_zhTW.dic")
 
 stopword_set = set()
 all_word_cut = []
 
-with codecs.open('../stop_words.txt','r','utf-8') as stopwords:
+with codecs.open('../../food_proj/stop_words.txt','r','utf-8') as stopwords:
     for stopword in stopwords:
         stopword_set.add(stopword.strip('\n'))
     
@@ -26,7 +28,7 @@ output  = codecs.open("wiki_seg_zhTW.txt",'w','utf-8')
 with codecs.open("./wiki_2_zhTW.txt",'r','utf-8') as content:
     for texts_num, line in enumerate(content):
         line = line.strip('\n')
-        words = jieba.cut(line, cut_all=False, HMM = True)
+        words = jieba.cut(line, cut_all=False, HMM = False)
 #        words = jieba.cut_for_search(line, HMM = True)
         for word in words:
             if word not in stopword_set:
